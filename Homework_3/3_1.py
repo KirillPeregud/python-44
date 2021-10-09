@@ -1,10 +1,16 @@
 # task 3_1 by Peregud Kirill
 
-import math
-
 DOWN_RANGE = 3
 UP_RANGE = 21
 result = None
+
+
+def my_range(x):
+    if DOWN_RANGE <= x <= UP_RANGE:
+        return True
+    else:
+        return False
+
 
 print(
 """
@@ -29,10 +35,10 @@ except:
     except:
         result = first_arg + second_arg
     else:
-        if (DOWN_RANGE <= first_float <= UP_RANGE) and (DOWN_RANGE <= second_float <= UP_RANGE):
+        if my_range(first_float) and my_range(second_float):
             result = abs(first_float - second_float)
 else:
-    if (DOWN_RANGE <= first_int <= UP_RANGE) and (DOWN_RANGE <= second_int <= UP_RANGE):
+    if my_range(first_int) and my_range(second_int):
         result = abs(first_int - second_int)
     else:
         result = first_arg + second_arg

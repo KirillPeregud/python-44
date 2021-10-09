@@ -22,7 +22,7 @@ def enter_argument(name_arg):
         except:
             print('Unfortunately, the argument is not a natural number :(\n')
         else:
-            if DOWN_RANGE <= value_arg <= UP_RANGE:
+            if value_arg in range(DOWN_RANGE, UP_RANGE + 1):
                 enter_arg = True
             else:
                 print(
