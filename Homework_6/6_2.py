@@ -9,19 +9,12 @@ print('=========\n')
 
 class Human(ABC):
 
-    def __init__(self, my_name, my_gender, my_age, my_education, my_city):
-        self.my_name = my_name
-        self.my_gender = my_gender
-        self.my_age = my_age
-        self.my_education = my_education
-        self.my_city = my_city
+    @abstractmethod
+    def _name(self):
+        pass
 
     @abstractmethod
-    def name(self):
-        pass
-    
-    @abstractmethod
-    def gender(self):
+    def _profession(self):
         pass
 
     @abstractmethod
@@ -29,70 +22,84 @@ class Human(ABC):
         pass
 
     @abstractmethod
+    def city(self):
+        pass
+
+    @abstractmethod
     def education(self):
         pass
 
     @abstractmethod
-    def city(self):
+    def gender(self):
         pass
+
 
 class Manager(Human):
 
-    my_profession = 'manager'
-    @property
-    def profession(self):
-        return f'Profession -> {self.my_profession}'
-    
-    @property
-    def name(self):
-        return f'Name -> {self.my_name}'
+    _my_profession = 'manager'
+
+    def __init__(self, my_name, my_age, my_city, my_education, my_gender):
+        self._my_name = my_name
+        self._my_age = my_age
+        self._my_city = my_city
+        self._my_education = my_education
+        self._my_gender = my_gender
+
+    def __repr__(self):
+        return f'{self._profession}\n{self._name}'
 
     @property
-    def gender(self):
-        return f'Gender -> {self.my_gender}'
+    def _name(self):
+        return f'Name -> {self._my_name}\n'
     
     @property
+    def _profession(self):
+        return f'Profession -> {self._my_profession}'
+
+    @property
     def age(self):
-        return f'Age -> {self.my_age}'
+        return f'Age -> {self._my_age}'
+
+    @property
+    def city(self):
+        return f'City -> {self._my_city}'
 
     @property
     def education(self):
-        return f'Education -> {self.my_education}'
+        return f'Education -> {self._my_education}'
     
     @property
-    def city(self):
-        return f'City -> {self.my_city}'
+    def gender(self):
+        return f'Gender -> {self._my_gender}'
 
 
 class Programmer(Manager):
-    my_profession = 'programmer'
+    _my_profession = 'programmer'
 
 
 class BusinessAnalyst(Manager):
-    my_profession = 'business analyst'
+    _my_profession = 'business analyst'
 
 
 class Tester(Manager):
-    my_profession = 'tester'
+    _my_profession = 'tester'
 
 
 def output_attr(human_class):
-    res = [
-        human_class.profession, human_class.name, human_class.gender,
-        human_class.age, human_class.education, human_class.city
-    ]
-    # res1 = [a for a in dir(human_class) if not (a.startswith('__') or a.startswith('_'))]
-    return res
+    result = [attr for attr in dir(human_class) if not (attr.startswith('__') or attr.startswith('_'))]
+    return result
 
 
-manager = Manager('Vasya Ytkin', 'man', 42, 'higher education', 'Moscow')
-programmer = Programmer('Ivan Belyi', 'man', 35, 'higher education', 'Minsk')
-business_analyst = BusinessAnalyst('Volodya Mashkovich', 'man', 28, 'secondary education', 'Mogilev')
-tester = Tester('Olga Garelaya', 'woman', 32, 'higher education', 'Vitebsk')
+# Start of the program
+manager = Manager('Vasya Ytkin', 42, 'Moscow', 'higher education', 'man')
+programmer = Programmer('Ivan Belyi', 35, 'Minsk', 'higher education', 'man')
+business_analyst = BusinessAnalyst('Volodya Mamkovich', 28, 'Mogilev', 'secondary education', 'man')
+tester = Tester('Olga Garelaya', 32, 'Vitebsk', 'higher education', 'woman')
 
 all_professions = [manager, programmer, business_analyst, tester]
 
 for prof in all_professions:
+    print(prof)
     for human in output_attr(prof):
-        print(human)
+        print(getattr(prof, human))
     print('\n=========\n')

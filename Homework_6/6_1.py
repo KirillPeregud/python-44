@@ -1,47 +1,50 @@
 # task №6_1 by Kirill Peregud
 
+import math
+
 print(
 """
 ----------
-The program performs operations on complex numbers ('+', '-', '*', '/')
-and finds the module of a complex number.
+The program performs operations on complex numbers ('+', '-', '*', '==', '/')
+and finds the module ('| |') of a complex number.
 ----------
 """
 )
 
 DOWN_RANGE = -50
 UP_RANGE = 50
-operation = ('+', '-', '*', '/', '||')
+operation = ('+', '-', '*', '/', '==', '||')
 
 
 class Complex:
 
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.re = x
+        self.im = y
 
-    def addition(self, compl):
-        result = (self.x + compl.x) + (self.y + compl.y) * 1j
-        return result
+    def __add__(self, right):
+        return Complex(self.re + right.re, self.im + right.im)
 
-    def subtraction(self, compl):
-        result = (self.x - compl.x) + (self.y - compl.y) * 1j
-        return result
+    def __sub__(self, right):
+        return Complex(self.re - right.re, self.im - right.im)
 
-    def multiplication(self, compl):
-        result = (self.x * compl.x - self.y * compl.y) + (self.x * compl.y + compl.x * self.y) * 1j
-        return result
+    def __mul__(self, right):
+        return Complex(self.re * right.re - self.im * right.im, self.re * right.im + right.re * self.im)
 
-    def division(self, compl):
-        denom = compl.x ** 2 + compl.y ** 2
-        result = (self.x * compl.x + self.y * compl.y) / denom + 1j * (compl.x * self.y - self.x * compl.y) / denom
-        return result
+    def __truediv__(self, right):
+        self.fi = math.atan2(self.im, self.re)
+        right.fi = math.atan2(right.im, right.re)
+        r = abs(self) / abs(right)
+        return Complex(round(r * math.cos(self.fi - right.fi), 2), round(r * math.sin(self.fi - right.fi), 2))
 
-    def module(self):
-        return pow(self.x ** 2 + self.y ** 2, 0.5)
+    def __abs__(self):
+        return round(pow(self.re ** 2 + self.im ** 2, 0.5), 2)
 
-    def print_complex(self):
-        return self.x + self.y * 1j
+    def __eq__(self, right):
+        return self.re == right.re and self.im == right.im
+
+    def __repr__(self):
+        return f'{self.re} + ({self.im})*i'
 
 
 def enter_argument(name_arg):
@@ -79,8 +82,15 @@ def find_module():
     return z
 
 
+def print_result(z1, operation, z2, result):
+    print('----------')
+    print(f'Calculation result: ({z1}) {operation} ({z2}) = {result}')
+    print('----------')
+
+
+# Start of the program
 operation_arg = input(
-        'Please, enter operation on complex numbers: "+", "-", "*", "/" or "||" (module)\n'
+        'Please, enter operation on complex numbers: "+", "-", "*", "/", "==" or "||" (module)\n'
         )
         
 while  operation_arg not in operation:
@@ -88,33 +98,37 @@ while  operation_arg not in operation:
     print('Oh, incorrect input :(')
     print('----------')
     operation_arg = input(
-        'Please, enter operation on complex numbers: "+", "-", "*", "/" or "||" (module)\n'
+        'Please, enter operation on complex numbers: "+", "-", "*", "/", "==" or "||" (module)\n'
         )
 
 if operation_arg == operation[0]:
     z1, z2 = basic_operations()
-    result = z1.addition(z2)
+    print_result(z1, operation[0], z2, z1 + z2)
 
 elif operation_arg == operation[1]:
     z1, z2 = basic_operations()
-    result = z1.subtraction(z2)
+    print_result(z1, operation[1], z2, z1 - z2)
 
 elif operation_arg == operation[2]:
     z1, z2 = basic_operations()
-    result = z1.multiplication(z2)
+    print_result(z1, operation[2], z2, z1 * z2)
 
 elif operation_arg == operation[3]:
     z1, z2 = basic_operations()
-    result = z1.division(z2)
+    print_result(z1, operation[3], z2, z1 / z2)
 
 elif operation_arg == operation[4]:
+    z1, z2 = basic_operations()
+    print('----------')
+    if (z1 == z2):
+        print(f'Calculation result: ({z1}) {operation_arg} ({z2}) -> True')
+    else:
+        print(f'Calculation result: ({z1}) != ({z2}) -> False')
+    print('----------')
+
+elif operation_arg == operation[5]:
     z = find_module()
+    result = abs(z)
     print('----------')
-    print(f'Calculation result: |{z.print_complex()}| = {z.module()}')
-    print('----------')
-
-
-if operation_arg in operation[0:4]:
-    print('----------')
-    print(f'Calculation result: {z1.print_complex()} {operation_arg} {z2.print_complex()} = {result}')
+    print(f'Calculation result: |{z}| = {result}')
     print('----------')
