@@ -2,7 +2,6 @@
 # без использованием метода .replace()
 """
 Упоминания в СМИ.
-
 Заменить упоминания о дяде Стёпе в тексте на своё имя.
 """
 
@@ -22,7 +21,6 @@ edit_text = enter_text.lower()
 result_text = enter_text
 
 index = None
-
 while index != -1:
     for text in find_name:
         index = edit_text.find(text)  # возвращает -1, если text не найден
