@@ -3,7 +3,7 @@ from O_nlogn import CheckDublicate
 import unittest
 
 
-class TestBinarySearch(unittest.TestCase):
+class TestCheckDublicate(unittest.TestCase):
 
     def setUp(self):
         self.cd = CheckDublicate()
