@@ -1,0 +1,8 @@
+<!doctype html>
+<form action="/" method="GET">
+    <h3>Welcome {{ session["username"] }}!</h3>
+    <button type="submit">Main page</button>   
+</form>
+<form action="/logout" method="GET">
+    <button type="submit">Log out</button>
+</form>
